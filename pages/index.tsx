@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import { Inter } from '@next/font/google'
-import { useFasttrackPrice } from '../hooks/FastTrackHooks';
-import { getCookies, getCookie, setCookies, removeCookies } from 'cookies-next'
+// import { getCookies, getCookie, setCookies, removeCookies } from 'cookies-next'
 // import styles from '@/styles/Home.module.css'
 
 const inter = Inter( { subsets: [ 'latin' ] } )
@@ -11,12 +10,6 @@ const inter = Inter( { subsets: [ 'latin' ] } )
 // }
 
 export default function Home() {
-
-	const fasttrackAppid = getCookie( 'fasttrack-appid' ),
-		fasttrackToken = getCookie( 'fasttrack-token' )
-
-	const { data } = useFasttrackPrice( 'GNT', fasttrackAppid, fasttrackToken )
-	console.log('%c 🍝 data: ', 'font-size:20px;background-color: #3F7CFF;color:#fff;', data);
 
 	return <>
 		<Head>
