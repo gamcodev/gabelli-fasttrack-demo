@@ -2,7 +2,7 @@ import { useRouter } from "next/router"
 import { getCookie } from 'cookies-next'
 import { useFasttrackPrice } from '../../hooks/FastTrackHooks'
 import { useState } from "react";
-import PerfTypeButtons from "@/components/PerfTypeButtons";
+import PerfTypeButtons from "../../components/PerfTypeButtons";
 // import styled from 'styled-components'
 
 const ShowFund = () => {

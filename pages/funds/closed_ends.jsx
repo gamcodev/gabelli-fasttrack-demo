@@ -1,8 +1,9 @@
-import PerfTypeButtons from '@/components/PerfTypeButtons'
-import { responseToJson } from '@/hooks/fetcher'
+import PerfTypeButtons from '../../components/PerfTypeButtons'
+import { responseToJson } from '../../hooks/fetcher'
 import { getCookie } from 'cookies-next'
 import { useEffect, useState } from 'react'
 import useSWRMutation from 'swr/mutation'
+import Link from 'next/link'
 // import { useFasttrackClosedEndPrices } from '../../hooks/FastTrackHooks'
 
 const closedEndTickers = [
@@ -36,8 +37,6 @@ const ClosedEnds = () => {
 	} ).then( responseToJson ) )
 	
 	useEffect( () => { trigger() }, [ trigger ] )
-
-	console.log(data);
 	
 	return <>
 	
@@ -71,7 +70,7 @@ const ClosedEnds = () => {
 				// risk,
 				// err
 			} ) => <div style={ { display: 'flex' } } key={ ticker }>
-				<span style={ { flex: 1 } }>{ ticker }</span>
+				<Link href={ `/funds/${ ticker }` } style={ { flex: 1 } }>{ ticker }</Link>
 				<span style={ { flex: 1 } }>{ `$${ describe.price }` }</span>
 				<span style={ { flex: 1 } }>{ parsePercentage( ( describe.price - describe.price_previous ) / describe.price_previous ) }</span>
 				<span style={ { flex: 1 } }>{ returns.total.ytd }</span>
