@@ -2,6 +2,7 @@ import { useRouter } from "next/router"
 import { getCookie } from 'cookies-next'
 import { useFasttrackPrice } from '../../hooks/FastTrackHooks'
 import { useState } from "react";
+import PerfTypeButtons from "@/components/PerfTypeButtons";
 // import styled from 'styled-components'
 
 const ShowFund = () => {
@@ -23,26 +24,10 @@ const ShowFund = () => {
 		<h1>{ tableToDisplay?.describe?.name } ({ ticker })</h1>
 		<h4>as of { tableToDisplay?.dteend?.strdate || '…' }</h4>
 		
-		<div style={ { display: 'flex', flexFlow: 'row nowrap' } }>
-			<button
-				disabled={ perfType === 'daily' }
-				onClick={ () => setPerfType( 'daily' ) }
-			>
-				Daily
-			</button>
-			<button
-				disabled={ perfType === 'monthly' }
-				onClick={ () => setPerfType( 'monthly' ) }
-			>
-				Monthly
-			</button>
-			<button
-				disabled={ perfType === 'quarterly' }
-				onClick={ () => setPerfType( 'quarterly' ) }
-			>
-				Quarterly
-			</button>
-		</div>
+		<PerfTypeButtons
+			perfType={ perfType }
+			setPerfType={ setPerfType }
+		/>
 	
 		<div style={ { display: 'flex', flexFlow: 'column wrap' } }>
 			<span>52wk hi		&nbsp;	{ tableToDisplay?.describe.high_52 }</span>
