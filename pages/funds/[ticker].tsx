@@ -12,7 +12,8 @@ const ShowFund = () => {
 	const fasttrackAppid = getCookie( 'fasttrack-appid' ),
 		fasttrackToken = getCookie( 'fasttrack-token' )
 		
-	const { daily, monthly, quarterly } = useFasttrackPrice( ticker, fasttrackAppid, fasttrackToken )
+	const fasttrackData = useFasttrackPrice( ticker, fasttrackAppid, fasttrackToken )
+	const { daily, monthly, quarterly } = fasttrackData
 
 	const [ perfType, setPerfType ] = useState( 'daily' )
 	const tableToDisplay = perfType === 'monthly' ? monthly : perfType === 'quarterly' ? quarterly : daily
@@ -44,10 +45,12 @@ const ShowFund = () => {
 		</div>
 	
 		<div style={ { display: 'flex', flexFlow: 'column wrap' } }>
-			{/* { Object.keys( tableToDisplay?.returns.annualized || {} ).map( period => <section key={ period }>
-				<span>{ period }&nbsp;</span>
-				<span>{ daily.returns.annualized[ period ] }</span>
-			</section> ) } */}
+			<span>52wk hi		&nbsp;	{ tableToDisplay?.describe.high_52 }</span>
+			<span>52wk lo		&nbsp;	{ tableToDisplay?.describe.low_52 }</span>
+			<span>Price			&nbsp;	{ tableToDisplay?.describe.price }</span>
+			<span>Prior price	&nbsp;	{ tableToDisplay?.describe.price_previous }</span>
+			<span>Mkt cap		&nbsp;	{ tableToDisplay?.describe.marketcap }</span>
+			<span>Shares out	&nbsp;	{ tableToDisplay?.describe.sharesout }</span>
 			<span>YTD			&nbsp;	{ tableToDisplay?.returns.total.ytd }</span>
 			<span>3 mo.			&nbsp;	{ tableToDisplay?.returns.total.threemonths }</span>
 			<span>1 yr.			&nbsp;	{ tableToDisplay?.returns.total.one }</span>
@@ -55,6 +58,13 @@ const ShowFund = () => {
 			<span>5 yr.			&nbsp;	{ tableToDisplay?.returns.annualized.five }</span>
 			<span>10 yr.		&nbsp;	{ tableToDisplay?.returns.annualized.ten }</span>
 			<span>Incept.		&nbsp;	{ tableToDisplay?.returns.annualized.inception }</span>
+		</div>
+		<hr />
+		<div style={ { display: 'flex', flexFlow: 'column wrap' } }>
+			{ Object.keys( tableToDisplay?.risk || {} ).map( riskType => <section key={ riskType }>
+				<span>{ riskType }&nbsp;</span>
+				<span>{ tableToDisplay?.risk[ riskType ] }</span>
+			</section> ) }
 		</div>
 
 	</>
