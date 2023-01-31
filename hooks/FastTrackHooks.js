@@ -1,6 +1,5 @@
 import useSWR from 'swr';
-
-const fetcher = url => fetch( url, { headers: { appid, token } } ).then( response => response.json() )
+import { fetcher } from '../hooks/fetcher'
 
 const trailingMonth = () => {
 	let date = new Date()
@@ -42,9 +41,10 @@ export function useFasttrackLogin() {
 }
 
 export function useFasttrackPrice( ticker, appid, token ) {
-	const { data: daily, error: dailyError } = useSWR( `https://ftl.fasttrack.net/v1/stats/${ ticker }`, url => fetch( url, { headers: { appid, token } } ).then( response => response.json() ) );
-	const { data: monthly, error: monthlyError } = useSWR( `https://ftl.fasttrack.net/v1/stats/${ ticker }?end=${ trailingMonth() }`, url => fetch( url, { headers: { appid, token } } ).then( response => response.json() ) );
-	const { data: quarterly, error: quarterlyError } = useSWR( `https://ftl.fasttrack.net/v1/stats/${ ticker }?end=${ trailingQuarter() }`, url => fetch( url, { headers: { appid, token } } ).then( response => response.json() ) );
+	const fetchWithFasttrackHeaders = url => fetch( url, { headers: { appid, token } } ).then( response => response.json() )
+	const { data: daily, error: dailyError } = useSWR( `https://ftl.fasttrack.net/v1/stats/${ ticker }`, fetchWithFasttrackHeaders );
+	const { data: monthly, error: monthlyError } = useSWR( `https://ftl.fasttrack.net/v1/stats/${ ticker }?end=${ trailingMonth() }`, fetchWithFasttrackHeaders );
+	const { data: quarterly, error: quarterlyError } = useSWR( `https://ftl.fasttrack.net/v1/stats/${ ticker }?end=${ trailingQuarter() }`, fetchWithFasttrackHeaders );
 	return {
 		daily, monthly, quarterly,
 		loading: !daily && !monthly && !quarterly && !dailyError && !monthlyError && !quarterlyError,

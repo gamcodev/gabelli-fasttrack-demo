@@ -15,24 +15,46 @@ const ShowFund = () => {
 	const { daily, monthly, quarterly } = useFasttrackPrice( ticker, fasttrackAppid, fasttrackToken )
 
 	const [ perfType, setPerfType ] = useState( 'daily' )
+	const tableToDisplay = perfType === 'monthly' ? monthly : perfType === 'quarterly' ? quarterly : daily
 
 	return <>
 
-		<h1>{ daily?.describe?.name } ({ ticker })</h1>
-		<h4>as of { daily?.dteend?.strdate || '…' }</h4>
+		<h1>{ tableToDisplay?.describe?.name } ({ ticker })</h1>
+		<h4>as of { tableToDisplay?.dteend?.strdate || '…' }</h4>
+		
+		<div style={ { display: 'flex', flexFlow: 'row nowrap' } }>
+			<button
+				disabled={ perfType === 'daily' }
+				onClick={ () => setPerfType( 'daily' ) }
+			>
+				Daily
+			</button>
+			<button
+				disabled={ perfType === 'monthly' }
+				onClick={ () => setPerfType( 'monthly' ) }
+			>
+				Monthly
+			</button>
+			<button
+				disabled={ perfType === 'quarterly' }
+				onClick={ () => setPerfType( 'quarterly' ) }
+			>
+				Quarterly
+			</button>
+		</div>
 	
 		<div style={ { display: 'flex', flexFlow: 'column wrap' } }>
-			{/* { Object.keys( daily?.returns.annualized || {} ).map( period => <section key={ period }>
+			{/* { Object.keys( tableToDisplay?.returns.annualized || {} ).map( period => <section key={ period }>
 				<span>{ period }&nbsp;</span>
 				<span>{ daily.returns.annualized[ period ] }</span>
 			</section> ) } */}
-			<span>YTD			&nbsp;	{ daily?.returns.total.ytd }</span>
-			<span>3 mo.			&nbsp;	{ daily?.returns.total.threemonths }</span>
-			<span>1 yr.			&nbsp;	{ daily?.returns.total.one }</span>
-			<span>3 yr.			&nbsp;	{ daily?.returns.annualized.three }</span>
-			<span>5 yr.			&nbsp;	{ daily?.returns.annualized.five }</span>
-			<span>10 yr.		&nbsp;	{ daily?.returns.annualized.ten }</span>
-			<span>Incept.		&nbsp;	{ daily?.returns.annualized.inception }</span>
+			<span>YTD			&nbsp;	{ tableToDisplay?.returns.total.ytd }</span>
+			<span>3 mo.			&nbsp;	{ tableToDisplay?.returns.total.threemonths }</span>
+			<span>1 yr.			&nbsp;	{ tableToDisplay?.returns.total.one }</span>
+			<span>3 yr.			&nbsp;	{ tableToDisplay?.returns.annualized.three }</span>
+			<span>5 yr.			&nbsp;	{ tableToDisplay?.returns.annualized.five }</span>
+			<span>10 yr.		&nbsp;	{ tableToDisplay?.returns.annualized.ten }</span>
+			<span>Incept.		&nbsp;	{ tableToDisplay?.returns.annualized.inception }</span>
 		</div>
 
 	</>
