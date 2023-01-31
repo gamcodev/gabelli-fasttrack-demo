@@ -14,6 +14,6 @@ export async function middleware( /* req: NextRequest */ ) {
 		nextResponse.cookies.set( "fasttrack-appid", fasttrackResponse.appid, {} )
 		nextResponse.cookies.set( "fasttrack-token", fasttrackResponse.token, {} )
 		nextResponse.cookies.set( "fasttrack-expiration", fasttrackResponse.expiration, {} )
-	}
+	// }
 	return nextResponse;
 }
