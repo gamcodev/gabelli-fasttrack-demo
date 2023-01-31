@@ -63,13 +63,13 @@ const ClosedEnds = () => {
 			</div>
 			{ data?.statslist.map( ( {
 				ticker,
-				aux,
 				describe,
-				dteend,
-				dtestart,
 				returns,
-				risk,
-				err
+				// aux,
+				// dteend,
+				// dtestart,
+				// risk,
+				// err
 			} ) => <div style={ { display: 'flex' } } key={ ticker }>
 				<span style={ { flex: 1 } }>{ ticker }</span>
 				<span style={ { flex: 1 } }>{ `$${ describe.price }` }</span>
