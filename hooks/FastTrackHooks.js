@@ -70,7 +70,7 @@ export function useFasttrackPrice( ticker, appid, token ) {
 }
 
 export function useFasttrackClosedEndPrices( appid, token ) {
-	const { data, mutate, error } = useSWR( 'https://ftl.fasttrack.net/v1/stats/xmulti', url => fetch( url, {
+	const { data, mutate, error } = useSWR( `https://ftl.fasttrack.net/v1/stats/xmulti?end=${ trailingMonth() }`, url => fetch( url, {
 		method: 'POST',
 		body: closedEndTickers,
 		headers: { appid, token, 'Content-Type': 'application/json' }

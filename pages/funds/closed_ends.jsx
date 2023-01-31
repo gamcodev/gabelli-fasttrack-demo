@@ -1,4 +1,4 @@
-import PerfTypeButtons from '../../components/PerfTypeButtons'
+// import PerfTypeButtons from '../../components/PerfTypeButtons'
 import { responseToJson } from '../../hooks/fetcher'
 import { getCookie } from 'cookies-next'
 import { useEffect, useState } from 'react'
@@ -28,7 +28,7 @@ const ClosedEnds = () => {
 	const appid = getCookie( 'fasttrack-appid' ),
 		token = getCookie( 'fasttrack-token' )
 
-	const [ perfType, setPerfType ] = useState( 'daily' )
+	// const [ perfType, setPerfType ] = useState( 'daily' )
 
 	const { trigger, data, error } = useSWRMutation( 'https://ftl.fasttrack.net/v1/stats/xmulti', url => fetch( url, {
 		method: 'POST',
@@ -42,10 +42,10 @@ const ClosedEnds = () => {
 	
 		<h1>Closed Ends</h1>
 	
-		<PerfTypeButtons
+		{/* <PerfTypeButtons
 			perfType={ perfType }
 			setPerfType={ setPerfType }
-		/>
+		/> */}
 
 		<div style={ { display: 'flex', flexFlow: 'column wrap', gap: '10px', textAlign: 'center' } }>
 			<div style={ { display: 'flex' } }>
