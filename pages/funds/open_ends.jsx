@@ -4,26 +4,34 @@ import { getCookie } from 'cookies-next'
 import { useEffect } from 'react'
 import useSWRMutation from 'swr/mutation'
 import Link from 'next/link'
-// import { useFasttrackClosedEndPrices } from '../../hooks/FastTrackHooks'
 
-const closedEndTickers = [
-	'BCV',
-	'GDV',
-	'ECF',
-	'GLU',
-	'GGZ',
-	'GGT',
-	'GRX',
-	'GCV',
-	'GAB',
-	'GNT',
-	'GGN',
-	'GDL',
-	'GUT',
-	// 'GMP LN'
+const openEndTickers = [
+	'GABAX',
+	'EAAAX',
+	'GIGRX',
+	'MOGLX',
+	'PETZX',
+	'GABCX',
+	'GABAX',
+	'GABBX',
+	'ESGGX',
+	'GABEX',
+	'GWSVX',
+	'GABTX',
+	'GAFSX',
+	'GICPX',
+	'GAMNX',
+	'GAGCX',
+	'GOLDX',
+	'GABGX',
+	'GABOX',
+	'GABSX',
+	'GABUX',
+	'GVCAX',
+	'COMVX',
 ]
 
-const ClosedEnds = () => {
+const OpenEnds = () => {
 
 	const appid = getCookie( 'fasttrack-appid' ),
 		token = getCookie( 'fasttrack-token' )
@@ -33,14 +41,14 @@ const ClosedEnds = () => {
 	const { trigger, data, error } = useSWRMutation( 'https://ftl.fasttrack.net/v1/stats/xmulti', url => fetch( url, {
 		method: 'POST',
 		headers: { appid, token, 'Content-Type': 'application/json' },
-		body: JSON.stringify( closedEndTickers ),
+		body: JSON.stringify( openEndTickers ),
 	} ).then( responseToJson ) )
 	
 	useEffect( () => { trigger() }, [ trigger ] )
 	
 	return <>
 	
-		<h1>Closed Ends</h1>
+		<h1>Open Ends</h1>
 	
 		{/* <PerfTypeButtons
 			perfType={ perfType }
@@ -88,6 +96,6 @@ const ClosedEnds = () => {
 
 }
 
-export default ClosedEnds
+export default OpenEnds
 
 const parsePercentage = figure => ( parseFloat( figure ) * 100 ).toFixed( 2 ) + '%'
