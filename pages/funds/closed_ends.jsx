@@ -69,7 +69,7 @@ const ClosedEnds = () => {
 				// dteend,
 				// dtestart,
 				// risk,
-				// err
+				err
 			} ) => err ? <div style={ { display: 'flex' } } key={ ticker }>
 				<span style={ { flex: 1 } }>{ ticker }</span>
 				<span style={ { flex: 9 } }>Error!</span>
