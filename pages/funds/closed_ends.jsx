@@ -1,11 +1,9 @@
-// import PerfTypeButtons from '../../components/PerfTypeButtons'
-import { responseToJson } from '../../hooks/fetcher'
+import PerfTypeButtons from '../../components/PerfTypeButtons'
 import { getCookie } from 'cookies-next'
-import { useEffect } from 'react'
-import useSWRMutation from 'swr/mutation'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { parsePercentage } from '../../utilities'
-// import { useFasttrackClosedEndPrices } from '../../hooks/FastTrackHooks'
+import { useFasttrackPrices } from '../../hooks/FastTrackHooks'
 
 const closedEndTickers = [
 	'BCV',
@@ -29,24 +27,31 @@ const ClosedEnds = () => {
 	const appid = getCookie( 'fasttrack-appid' ),
 		token = getCookie( 'fasttrack-token' )
 
-	// const [ perfType, setPerfType ] = useState( 'daily' )
+	const [ perfType, setPerfType ] = useState( 'daily' )
 
-	const { trigger, data, error } = useSWRMutation( 'https://ftl.fasttrack.net/v1/stats/xmulti?unadj=1', url => fetch( url, {
-		method: 'POST',
-		headers: { appid, token, 'Content-Type': 'application/json' },
-		body: JSON.stringify( closedEndTickers ),
-	} ).then( responseToJson ) )
+	const {
+		triggerDaily, triggerMonthly, triggerQuarterly,
+		daily, monthly, quarterly,
+		error
+	} = useFasttrackPrices( closedEndTickers, perfType, appid, token )
 	
-	useEffect( () => { trigger() }, [ trigger ] )
+	const tableToDisplay = perfType === 'monthly' ? monthly : perfType === 'quarterly' ? quarterly : daily
+
+	useEffect( () => {
+		triggerDaily()
+		triggerMonthly()
+		triggerQuarterly()
+	}, [ triggerDaily, triggerMonthly, triggerQuarterly ] )
 	
 	return <>
 	
 		<h1>Closed Ends</h1>
+		<h4>as of { tableToDisplay?.statslist[ 0 ].dteend?.strdate || '…' }</h4>
 	
-		{/* <PerfTypeButtons
+		<PerfTypeButtons
 			perfType={ perfType }
 			setPerfType={ setPerfType }
-		/> */}
+		/>
 
 		<div style={ { display: 'flex', flexFlow: 'column wrap', gap: '10px', textAlign: 'center' } }>
 			<div style={ { display: 'flex' } }>
@@ -61,7 +66,7 @@ const ClosedEnds = () => {
 				<span style={ { flex: 1 } }>10 YR</span>
 				<span style={ { flex: 1 } }>Life</span>
 			</div>
-			{ data?.statslist.map( ( {
+			{ tableToDisplay?.statslist.map( ( {
 				ticker,
 				describe,
 				returns,
@@ -89,7 +94,6 @@ const ClosedEnds = () => {
 				<span style={ { flex: 1 } }>{ returns.annualized.inception }</span>
 			</div> ) }
 		</div>
-
 
 	</>
 

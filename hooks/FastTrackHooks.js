@@ -1,5 +1,6 @@
 import useSWR from 'swr';
-import { fetcher, responseToJson } from '../hooks/fetcher'
+import useSWRMutation from 'swr/mutation'
+import { responseToJson } from '../hooks/fetcher'
 
 const closedEndTickers = [
 	'BCV',
@@ -58,10 +59,10 @@ const trailingQuarter = () => {
 // }
 
 export function useFasttrackPrice( ticker, appid, token ) {
-	const fetchWithFasttrackHeaders = url => fetch( url, { headers: { appid, token, 'Content-Type': 'application/json' } } ).then( responseToJson )
-	const { data: daily, error: dailyError } = useSWR( `https://ftl.fasttrack.net/v1/stats/${ ticker }`, fetchWithFasttrackHeaders );
-	const { data: monthly, error: monthlyError } = useSWR( `https://ftl.fasttrack.net/v1/stats/${ ticker }?end=${ trailingMonth() }`, fetchWithFasttrackHeaders );
-	const { data: quarterly, error: quarterlyError } = useSWR( `https://ftl.fasttrack.net/v1/stats/${ ticker }?end=${ trailingQuarter() }`, fetchWithFasttrackHeaders );
+	const fetchOneTickerWithFasttrackHeaders = url => fetch( url, { headers: { appid, token, 'Content-Type': 'application/json' } } ).then( responseToJson )
+	const { data: daily, error: dailyError } = useSWR( `https://ftl.fasttrack.net/v1/stats/${ ticker }`, fetchOneTickerWithFasttrackHeaders );
+	const { data: monthly, error: monthlyError } = useSWR( `https://ftl.fasttrack.net/v1/stats/${ ticker }?end=${ trailingMonth() }`, fetchOneTickerWithFasttrackHeaders );
+	const { data: quarterly, error: quarterlyError } = useSWR( `https://ftl.fasttrack.net/v1/stats/${ ticker }?end=${ trailingQuarter() }`, fetchOneTickerWithFasttrackHeaders );
 	return {
 		daily, monthly, quarterly,
 		loading: !daily && !monthly && !quarterly && !dailyError && !monthlyError && !quarterlyError,
@@ -69,11 +70,19 @@ export function useFasttrackPrice( ticker, appid, token ) {
 	};
 }
 
-export function useFasttrackClosedEndPrices( appid, token ) {
-	const { data, mutate, error } = useSWR( `https://ftl.fasttrack.net/v1/stats/xmulti?end=${ trailingMonth() }`, url => fetch( url, {
+export function useFasttrackPrices( tickers, perfType = 'daily', appid, token ) {
+	const fetchMultipleTickersWithFastTrackHeaders = url => fetch( url, {
 		method: 'POST',
-		body: closedEndTickers,
-		headers: { appid, token, 'Content-Type': 'application/json' }
-	} ).then( responseToJson ) )
-	return { data, mutate, loading: !data & !error, error };
+		headers: { appid, token, 'Content-Type': 'application/json' },
+		body: JSON.stringify( tickers ),
+	} ).then( responseToJson )
+	const {	trigger: triggerDaily, data: daily, error: dailyError } = useSWRMutation( 'https://ftl.fasttrack.net/v1/stats/xmulti?unadj=1', fetchMultipleTickersWithFastTrackHeaders )
+	const {	trigger: triggerMonthly, data: monthly, error: monthlyError } = useSWRMutation( `https://ftl.fasttrack.net/v1/stats/xmulti?unadj=1&end=${ trailingMonth() }`, fetchMultipleTickersWithFastTrackHeaders )
+	const {	trigger: triggerQuarterly, data: quarterly, error: quarterlyError } = useSWRMutation( `https://ftl.fasttrack.net/v1/stats/xmulti?unadj=1&end=${ trailingQuarter() }`, fetchMultipleTickersWithFastTrackHeaders )
+	return {
+		triggerDaily, triggerMonthly, triggerQuarterly,
+		daily, monthly, quarterly,
+		loading: !daily && !monthly && !quarterly && !dailyError && !monthlyError && !quarterlyError,
+		error: dailyError && monthlyError && quarterlyError
+	};
 }
