@@ -4,6 +4,7 @@ import { getCookie } from 'cookies-next'
 import { useEffect } from 'react'
 import useSWRMutation from 'swr/mutation'
 import Link from 'next/link'
+import { parsePercentage } from '../../utilities'
 
 const openEndTickers = {
 	"GABUX":	"Gabelli Utilities @ AAA",
@@ -168,5 +169,3 @@ const OpenEnds = () => {
 }
 
 export default OpenEnds
-
-const parsePercentage = figure => ( parseFloat( figure ) * 100 ).toFixed( 2 ) + '%'

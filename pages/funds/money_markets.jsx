@@ -5,26 +5,8 @@ import { useEffect } from 'react'
 import useSWRMutation from 'swr/mutation'
 import Link from 'next/link'
 import { parsePercentage } from '../../utilities'
-// import { useFasttrackClosedEndPrices } from '../../hooks/FastTrackHooks'
 
-const closedEndTickers = [
-	'BCV',
-	'GDV',
-	'ECF',
-	'GLU',
-	'GGZ',
-	'GGT',
-	'GRX',
-	'GCV',
-	'GAB',
-	'GNT',
-	'GGN',
-	'GDL',
-	'GUT',
-	// 'GMP LN'
-]
-
-const ClosedEnds = () => {
+const MoneyMarkets = () => {
 
 	const appid = getCookie( 'fasttrack-appid' ),
 		token = getCookie( 'fasttrack-token' )
@@ -34,14 +16,14 @@ const ClosedEnds = () => {
 	const { trigger, data, error } = useSWRMutation( 'https://ftl.fasttrack.net/v1/stats/xmulti', url => fetch( url, {
 		method: 'POST',
 		headers: { appid, token, 'Content-Type': 'application/json' },
-		body: JSON.stringify( closedEndTickers ),
+		body: JSON.stringify( [ 'GABXX', 'GBAXX', 'GBCXX' ] ),
 	} ).then( responseToJson ) )
 	
 	useEffect( () => { trigger() }, [ trigger ] )
 	
 	return <>
 	
-		<h1>Closed Ends</h1>
+		<h1>The Gabelli U.S. Treasury Money Market Fund</h1>
 	
 		{/* <PerfTypeButtons
 			perfType={ perfType }
@@ -69,19 +51,29 @@ const ClosedEnds = () => {
 				// dteend,
 				// dtestart,
 				// risk,
-				// err
-			} ) => <div style={ { display: 'flex' } } key={ ticker }>
-				<Link href={ `/funds/${ ticker }` } style={ { flex: 1 } }>{ ticker }</Link>
-				<span style={ { flex: 1 } }>{ `$${ describe.price }` }</span>
-				<span style={ { flex: 1 } }>{ parsePercentage( ( describe.price - describe.price_previous ) / describe.price_previous ) }</span>
-				<span style={ { flex: 1 } }>{ returns.total.ytd }</span>
-				<span style={ { flex: 1 } }>{ returns.total.threemonths }</span>
-				<span style={ { flex: 1 } }>{ returns.total.one }</span>
-				<span style={ { flex: 1 } }>{ returns.annualized.three }</span>
-				<span style={ { flex: 1 } }>{ returns.annualized.five }</span>
-				<span style={ { flex: 1 } }>{ returns.annualized.ten }</span>
-				<span style={ { flex: 1 } }>{ returns.annualized.inception }</span>
-			</div> ) }
+				err
+			} ) => err ? <div style={ { display: 'flex' } } key={ ticker }>
+				<span style={ { flex: 1 } }>{ ticker }</span>
+				<span style={ { flex: 9 } }>Error!</span>
+			</div> : <>
+				<div style={ { display: 'flex' } } key={ ticker }>
+					<span style={ { flex: 1 } }>
+						<Link href={ `/funds/${ ticker }` }>{ ticker }</Link>
+						<div style={ { fontSize: '8pt' } }>{ describe.name }</div>
+					</span>
+					<span style={ { flex: 1 } }>{ `$${ describe.price }` }</span>
+					<span style={ { flex: 1 } }>{ parsePercentage( ( describe.price - describe.price_previous ) / describe.price_previous ) }</span>
+					<span style={ { flex: 1 } }>{ returns.total.ytd }</span>
+					<span style={ { flex: 1 } }>{ returns.total.threemonths }</span>
+					<span style={ { flex: 1 } }>{ returns.total.one }</span>
+					<span style={ { flex: 1 } }>{ returns.annualized.three }</span>
+					<span style={ { flex: 1 } }>{ returns.annualized.five }</span>
+					<span style={ { flex: 1 } }>{ returns.annualized.ten }</span>
+					<span style={ { flex: 1 } }>{ returns.annualized.inception }</span>
+				</div> 
+				<div style={ { display: 'flex' } } key={ describe.name }>
+				</div> 
+			</> ) }
 		</div>
 
 
@@ -89,4 +81,4 @@ const ClosedEnds = () => {
 
 }
 
-export default ClosedEnds
+export default MoneyMarkets
