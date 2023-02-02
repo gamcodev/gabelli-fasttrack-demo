@@ -13,7 +13,7 @@ const ETFs = () => {
 
 	// const [ perfType, setPerfType ] = useState( 'daily' )
 
-	const { trigger, data, error } = useSWRMutation( 'https://ftl.fasttrack.net/v1/stats/xmulti', url => fetch( url, {
+	const { trigger, data, error } = useSWRMutation( 'https://ftl.fasttrack.net/v1/stats/xmulti?unadj=1', url => fetch( url, {
 		method: 'POST',
 		headers: { appid, token, 'Content-Type': 'application/json' },
 		body: JSON.stringify( [ 'GCAD', 'GAST', 'GABF', 'LOPP', 'GGRW' ] ),
@@ -23,7 +23,7 @@ const ETFs = () => {
 	
 	return <>
 	
-		<h1>The Gabelli U.S. Treasury Money Market Fund</h1>
+		<h1>Gabelli ETFs</h1>
 	
 		{/* <PerfTypeButtons
 			perfType={ perfType }
@@ -55,25 +55,21 @@ const ETFs = () => {
 			} ) => err ? <div style={ { display: 'flex' } } key={ ticker }>
 				<span style={ { flex: 1 } }>{ ticker }</span>
 				<span style={ { flex: 9 } }>Error!</span>
-			</div> : <>
-				<div style={ { display: 'flex' } } key={ ticker }>
-					<span style={ { flex: 1 } }>
-						<Link href={ `/funds/${ ticker }` }>{ ticker }</Link>
-						<div style={ { fontSize: '8pt' } }>{ describe.name }</div>
-					</span>
-					<span style={ { flex: 1 } }>{ `$${ describe.price }` }</span>
-					<span style={ { flex: 1 } }>{ parsePercentage( ( describe.price - describe.price_previous ) / describe.price_previous ) }</span>
-					<span style={ { flex: 1 } }>{ returns.total.ytd }</span>
-					<span style={ { flex: 1 } }>{ returns.total.threemonths }</span>
-					<span style={ { flex: 1 } }>{ returns.total.one }</span>
-					<span style={ { flex: 1 } }>{ returns.annualized.three }</span>
-					<span style={ { flex: 1 } }>{ returns.annualized.five }</span>
-					<span style={ { flex: 1 } }>{ returns.annualized.ten }</span>
-					<span style={ { flex: 1 } }>{ returns.annualized.inception }</span>
-				</div> 
-				<div style={ { display: 'flex' } } key={ describe.name }>
-				</div> 
-			</> ) }
+			</div> : <div style={ { display: 'flex' } } key={ ticker }>
+				<span style={ { flex: 1 } }>
+					<Link href={ `/funds/${ ticker }` }>{ ticker }</Link>
+					<div style={ { fontSize: '8pt' } }>{ describe.name }</div>
+				</span>
+				<span style={ { flex: 1 } }>{ `$${ describe.price }` }</span>
+				<span style={ { flex: 1 } }>{ parsePercentage( ( describe.price - describe.price_previous ) / describe.price_previous ) }</span>
+				<span style={ { flex: 1 } }>{ returns.total.ytd }</span>
+				<span style={ { flex: 1 } }>{ returns.total.threemonths }</span>
+				<span style={ { flex: 1 } }>{ returns.total.one }</span>
+				<span style={ { flex: 1 } }>{ returns.annualized.three }</span>
+				<span style={ { flex: 1 } }>{ returns.annualized.five }</span>
+				<span style={ { flex: 1 } }>{ returns.annualized.ten }</span>
+				<span style={ { flex: 1 } }>{ returns.annualized.inception }</span>
+			</div> ) }
 		</div>
 
 

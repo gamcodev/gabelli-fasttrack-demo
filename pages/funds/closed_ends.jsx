@@ -31,7 +31,7 @@ const ClosedEnds = () => {
 
 	// const [ perfType, setPerfType ] = useState( 'daily' )
 
-	const { trigger, data, error } = useSWRMutation( 'https://ftl.fasttrack.net/v1/stats/xmulti', url => fetch( url, {
+	const { trigger, data, error } = useSWRMutation( 'https://ftl.fasttrack.net/v1/stats/xmulti?unadj=1', url => fetch( url, {
 		method: 'POST',
 		headers: { appid, token, 'Content-Type': 'application/json' },
 		body: JSON.stringify( closedEndTickers ),
@@ -70,8 +70,14 @@ const ClosedEnds = () => {
 				// dtestart,
 				// risk,
 				// err
-			} ) => <div style={ { display: 'flex' } } key={ ticker }>
-				<Link href={ `/funds/${ ticker }` } style={ { flex: 1 } }>{ ticker }</Link>
+			} ) => err ? <div style={ { display: 'flex' } } key={ ticker }>
+				<span style={ { flex: 1 } }>{ ticker }</span>
+				<span style={ { flex: 9 } }>Error!</span>
+			</div> : <div style={ { display: 'flex' } } key={ ticker }>
+				<span style={ { flex: 1 } }>
+					<Link href={ `/funds/${ ticker }` }>{ ticker }</Link>
+					<div style={ { fontSize: '8pt' } }>{ describe.name }</div>
+				</span>
 				<span style={ { flex: 1 } }>{ `$${ describe.price }` }</span>
 				<span style={ { flex: 1 } }>{ parsePercentage( ( describe.price - describe.price_previous ) / describe.price_previous ) }</span>
 				<span style={ { flex: 1 } }>{ returns.total.ytd }</span>
