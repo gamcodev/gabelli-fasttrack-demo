@@ -25,7 +25,7 @@ export default function Home() {
 				<Link href='/funds/closed_ends'>Closed End Funds</Link>
 				<Link href='/funds/money_markets'>Money Market Funds</Link>
 				<Link href='/funds/etfs'>ETFs</Link>
-				{/* <Link href='/funds/sicavs'>SICAVs</Link> */}
+				<Link href='/funds/sicavs'>SICAVs</Link>
 			</div>
 		</main>
 	</>
