@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { Inter } from '@next/font/google'
+import Link from 'next/link'
 // import { getCookies, getCookie, setCookies, removeCookies } from 'cookies-next'
 // import styles from '../styles/Home.module.css'
 
@@ -19,7 +20,13 @@ export default function Home() {
 			<link rel="icon" href="/favicon.ico" />
 		</Head>
 		<main>
-			
+			<div style={ { display: 'flex', flexFlow: 'column' } }>
+				<Link href='/funds/open_ends'>Mutual Funds</Link>
+				<Link href='/funds/closed_ends'>Closed End Funds</Link>
+				<Link href='/funds/money_markets'>Money Market Funds</Link>
+				<Link href='/funds/etfs'>ETFs</Link>
+				{/* <Link href='/funds/sicavs'>SICAVs</Link> */}
+			</div>
 		</main>
 	</>
 

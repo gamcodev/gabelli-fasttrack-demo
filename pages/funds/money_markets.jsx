@@ -2,7 +2,7 @@ import PerfTypeButtons from '../../components/PerfTypeButtons'
 import { getCookie } from 'cookies-next'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { parsePercentage } from '../../utilities'
+import { parseFastTrackReturns, parsePercentage } from '../../utilities'
 import { useFasttrackPrices } from '../../hooks/FastTrackHooks'
 
 const MoneyMarkets = () => {
@@ -68,13 +68,13 @@ const MoneyMarkets = () => {
 				</span>
 				<span style={ { flex: 1 } }>{ `$${ describe.price }` }</span>
 				<span style={ { flex: 1 } }>{ parsePercentage( ( describe.price - describe.price_previous ) / describe.price_previous ) }</span>
-				<span style={ { flex: 1 } }>{ returns.total.ytd }</span>
-				<span style={ { flex: 1 } }>{ returns.total.threemonths }</span>
-				<span style={ { flex: 1 } }>{ returns.total.one }</span>
-				<span style={ { flex: 1 } }>{ returns.annualized.three }</span>
-				<span style={ { flex: 1 } }>{ returns.annualized.five }</span>
-				<span style={ { flex: 1 } }>{ returns.annualized.ten }</span>
-				<span style={ { flex: 1 } }>{ returns.annualized.inception }</span>
+				<span style={ { flex: 1 } }>{ parseFastTrackReturns( returns ).ytd }</span>
+				<span style={ { flex: 1 } }>{ parseFastTrackReturns( returns ).threemonths }</span>
+				<span style={ { flex: 1 } }>{ parseFastTrackReturns( returns ).one }</span>
+				<span style={ { flex: 1 } }>{ parseFastTrackReturns( returns ).three }</span>
+				<span style={ { flex: 1 } }>{ parseFastTrackReturns( returns ).five }</span>
+				<span style={ { flex: 1 } }>{ parseFastTrackReturns( returns ).ten }</span>
+				<span style={ { flex: 1 } }>{ parseFastTrackReturns( returns ).inception }</span>
 			</div> ) }
 		</div>
 
