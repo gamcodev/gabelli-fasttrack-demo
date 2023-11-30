@@ -76,7 +76,7 @@ const openEndTickers = {
 	"EMAYX":	"Gabelli Enterprise M&A Y",
 	"MLGLX":	"Gabelli Media Mogul Fund A",
 	"MOGLX":	"Gabelli Media Mogul Fund I",
-	"PETZX":	"Gabelli Pet Parents Fund A",
+	"PETGX":	"Gabelli Pet Parents Fund A",
 	"PETZX":	"Gabelli Pet Parents Fund I",
 	"GAMNX":	"Gabelli Gl Mini Mites Fund @ AAA",
 	"GMNAX":	"Gabelli Gl Mini Mites Fund A ",
