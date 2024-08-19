@@ -20,6 +20,8 @@ const ShowFund = () => {
 	const [ perfType, setPerfType ] = useState( 'daily' )
 	const tableToDisplay = perfType === 'monthly' ? monthly : perfType === 'quarterly' ? quarterly : daily
 
+	const [ sortDivsAscending, setSortDivsAscending ] = useState( false );
+
 	return <>
 
 		<h1>{ tableToDisplay?.describe?.name } ({ ticker })</h1>
@@ -62,11 +64,14 @@ const ShowFund = () => {
 			flexFlow: 'column nowrap',
 		} }>
 			<section style={ flexRowStyle }>
-				<span style={ { flex: 1, fontWeight: '800', } }>Date</span>
+				<span style={ { flex: 1, fontWeight: '800', } }>
+					Date&nbsp;
+					<button onClick={ () => setSortDivsAscending( !sortDivsAscending ) } style={ { fontWeight: '800' } }>Sort { sortDivsAscending ? '▼' : '▲' }</button>
+				</span>
 				<span style={ { flex: 1, fontWeight: '800', } }>Price</span>
 				<span style={ { flex: 4, fontWeight: '800', } }>Divs</span>
 			</section>
-			{ dividends?.datarange?.map( ( { date, divs, price } ) => <StyledDivTable key={ date.marketdate }>
+			{ ( sortDivsAscending ? dividends?.datarange : dividends?.datarange?.toReversed() )?.map( ( { date, divs, price } ) => <StyledDivTable key={ date.marketdate }>
 				<span style={ { flex: 1 } }>{ date.strdate }</span>
 				<span style={ { flex: 1 } }>{ price }</span>
 				<div style={ { flex: 4, ...flexColumnStyle } }>
