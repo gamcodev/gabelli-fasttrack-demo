@@ -63,10 +63,11 @@ export function useFasttrackPrice( ticker, appid, token ) {
 	const { data: daily, error: dailyError } = useSWR( `https://ftl.fasttrack.net/v1/stats/${ ticker }`, fetchOneTickerWithFasttrackHeaders );
 	const { data: monthly, error: monthlyError } = useSWR( `https://ftl.fasttrack.net/v1/stats/${ ticker }?end=${ trailingMonth() }`, fetchOneTickerWithFasttrackHeaders );
 	const { data: quarterly, error: quarterlyError } = useSWR( `https://ftl.fasttrack.net/v1/stats/${ ticker }?end=${ trailingQuarter() }`, fetchOneTickerWithFasttrackHeaders );
+	const { data: dividends, error: dividendsError } = useSWR( `https://ftl.fasttrack.net/v1/data/${ ticker }/dividends?end=${ trailingQuarter() }`, fetchOneTickerWithFasttrackHeaders );
 	return {
-		daily, monthly, quarterly,
-		loading: !daily && !monthly && !quarterly && !dailyError && !monthlyError && !quarterlyError,
-		error: dailyError && monthlyError && quarterlyError
+		daily, monthly, quarterly, dividends,
+		loading: !daily && !monthly && !quarterly && !dailyError && !monthlyError && !quarterlyError && !dividendsError,
+		error: dailyError && monthlyError && quarterlyError && dividendsError
 	};
 }
 
