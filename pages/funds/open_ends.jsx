@@ -172,13 +172,13 @@ const OpenEnds = () => {
 				</span>
 				<span style={ { flex: 1 } }>{ `$${ describe?.price }` }</span>
 				<span style={ { flex: 1 } }>{ parsePercentage( ( describe?.price - describe?.price_previous ) / describe?.price_previous ) }</span>
-				<span style={ { flex: 1 } }>{ returns.ytd }</span>
-				<span style={ { flex: 1 } }>{ returns.threemonths }</span>
-				<span style={ { flex: 1 } }>{ returns.one }</span>
-				<span style={ { flex: 1 } }>{ returns.three }</span>
-				<span style={ { flex: 1 } }>{ returns.five }</span>
-				<span style={ { flex: 1 } }>{ returns.ten }</span>
-				<span style={ { flex: 1 } }>{ returns.inception }</span>
+				<span style={ { flex: 1 } }>{ parseFastTrackReturns( returns ).ytd }</span>
+				<span style={ { flex: 1 } }>{ parseFastTrackReturns( returns ).threemonths }</span>
+				<span style={ { flex: 1 } }>{ parseFastTrackReturns( returns ).one }</span>
+				<span style={ { flex: 1 } }>{ parseFastTrackReturns( returns ).three }</span>
+				<span style={ { flex: 1 } }>{ parseFastTrackReturns( returns ).five }</span>
+				<span style={ { flex: 1 } }>{ parseFastTrackReturns( returns ).ten }</span>
+				<span style={ { flex: 1 } }>{ parseFastTrackReturns( returns ).inception }</span>
 			</div> ) }
 		</div>
 
