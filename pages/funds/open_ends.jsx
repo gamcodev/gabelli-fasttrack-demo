@@ -117,8 +117,8 @@ const OpenEnds = () => {
 
 	const formattedTable = {
 			'Ticker': tableToDisplay?.statslist.ticker,
-			'Price': tableToDisplay?.statslist.describe.price,
-			'Change': parsePercentage( ( tableToDisplay?.statslist.describe.price - tableToDisplay?.statslist.describe.price_previous ) / tableToDisplay?.statslist.describe.price_previous ),
+			'Price': tableToDisplay?.statslist.describe?.price,
+			'Change': parsePercentage( ( tableToDisplay?.statslist.describe?.price - tableToDisplay?.statslist.describe?.price_previous ) / tableToDisplay?.statslist.describe?.price_previous ),
 			'YTD': parsedReturns.ytd,
 			'3MO': parsedReturns.threemonths,
 			'1yr': parsedReturns.one,
@@ -170,8 +170,8 @@ const OpenEnds = () => {
 					<Link href={ `/funds/${ ticker }` }>{ ticker }</Link>
 					<div style={ { fontSize: '8pt' } }>{ describe.name }</div>
 				</span>
-				<span style={ { flex: 1 } }>{ `$${ describe.price }` }</span>
-				<span style={ { flex: 1 } }>{ parsePercentage( ( describe.price - describe.price_previous ) / describe.price_previous ) }</span>
+				<span style={ { flex: 1 } }>{ `$${ describe?.price }` }</span>
+				<span style={ { flex: 1 } }>{ parsePercentage( ( describe?.price - describe?.price_previous ) / describe?.price_previous ) }</span>
 				<span style={ { flex: 1 } }>{ parsedReturns.ytd }</span>
 				<span style={ { flex: 1 } }>{ parsedReturns.threemonths }</span>
 				<span style={ { flex: 1 } }>{ parsedReturns.one }</span>
