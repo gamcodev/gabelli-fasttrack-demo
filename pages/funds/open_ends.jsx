@@ -1,9 +1,9 @@
-import PerfTypeButtons from '../../components/PerfTypeButtons'
 import { getCookie } from 'cookies-next'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { parseFastTrackReturns, parsePercentage } from '../../utilities'
 import { useFasttrackPrices } from '../../hooks/FastTrackHooks'
+import PerfTypeButtons from '../../components/PerfTypeButtons'
+import { parseFastTrackReturns, parsePercentage, downloadAsCsv } from '../../utilities'
 
 const openEndTickers = {
 	"GABUX":	"Gabelli Utilities @ AAA",
@@ -113,6 +113,21 @@ const OpenEnds = () => {
 		triggerQuarterly()
 	}, [ triggerDaily, triggerMonthly, triggerQuarterly ] )
 	
+	const parsedReturns = parseFastTrackReturns( tableToDisplay?.statslist.returns );
+
+	const formattedTable = {
+			'Ticker': tableToDisplay?.statslist.ticker,
+			'Price': tableToDisplay?.statslist.describe.price,
+			'Change': parsePercentage( ( tableToDisplay?.statslist.describe.price - tableToDisplay?.statslist.describe.price_previous ) / tableToDisplay?.statslist.describe.price_previous ),
+			'YTD': parsedReturns.ytd,
+			'3MO': parsedReturns.threemonths,
+			'1yr': parsedReturns.one,
+			'3yr': parsedReturns.three,
+			'5yr': parsedReturns.five,
+			'10yr': parsedReturns.ten,
+			'Inception': parsedReturns.inception,
+	}
+
 	return <>
 	
 		<h1>Open Ends</h1>
@@ -122,6 +137,8 @@ const OpenEnds = () => {
 			perfType={ perfType }
 			setPerfType={ setPerfType }
 		/>
+
+		<button onClick={ () => { downloadAsCsv( Object.values( formattedTable ), Object.keys( formattedTable ) ) } }>Download as CSV</button>
 
 		<div style={ { display: 'flex', flexFlow: 'column wrap', gap: '10px', textAlign: 'center' } }>
 			<div style={ { display: 'flex' } }>
@@ -139,7 +156,7 @@ const OpenEnds = () => {
 			{ tableToDisplay?.statslist.map( ( {
 				ticker,
 				describe,
-				returns,
+				// returns,
 				// aux,
 				// dteend,
 				// dtestart,
@@ -155,13 +172,13 @@ const OpenEnds = () => {
 				</span>
 				<span style={ { flex: 1 } }>{ `$${ describe.price }` }</span>
 				<span style={ { flex: 1 } }>{ parsePercentage( ( describe.price - describe.price_previous ) / describe.price_previous ) }</span>
-				<span style={ { flex: 1 } }>{ parseFastTrackReturns( returns ).ytd }</span>
-				<span style={ { flex: 1 } }>{ parseFastTrackReturns( returns ).threemonths }</span>
-				<span style={ { flex: 1 } }>{ parseFastTrackReturns( returns ).one }</span>
-				<span style={ { flex: 1 } }>{ parseFastTrackReturns( returns ).three }</span>
-				<span style={ { flex: 1 } }>{ parseFastTrackReturns( returns ).five }</span>
-				<span style={ { flex: 1 } }>{ parseFastTrackReturns( returns ).ten }</span>
-				<span style={ { flex: 1 } }>{ parseFastTrackReturns( returns ).inception }</span>
+				<span style={ { flex: 1 } }>{ parsedReturns.ytd }</span>
+				<span style={ { flex: 1 } }>{ parsedReturns.threemonths }</span>
+				<span style={ { flex: 1 } }>{ parsedReturns.one }</span>
+				<span style={ { flex: 1 } }>{ parsedReturns.three }</span>
+				<span style={ { flex: 1 } }>{ parsedReturns.five }</span>
+				<span style={ { flex: 1 } }>{ parsedReturns.ten }</span>
+				<span style={ { flex: 1 } }>{ parsedReturns.inception }</span>
 			</div> ) }
 		</div>
 

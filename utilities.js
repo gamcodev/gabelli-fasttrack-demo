@@ -11,3 +11,17 @@ export const parseFastTrackReturns = returns => {
 		inception: returns?.annualized?.inception < -101 ? '—' : returns?.annualized?.inception,
 	};
 };
+
+export const toCsv = ( arrayOfRows, columnsToInclude = Object.keys( arrayOfRows[ 0 ] ) ) => {
+	return [ columnsToInclude.join(), ...arrayOfRows.map( row => columnsToInclude.map( column => row[ column ] ? `"${ row[ column ] }"` : '' ).join() ) ].join( '\n' );
+};
+
+export const downloadAsCsv = ( arrayOfRowsToConvert, columnsToInclude ) => {
+	const element = document.createElement( 'a' );
+	element.setAttribute( 'href', 'data:text/csv;charset=UTF-8,' + encodeURIComponent( toCsv( arrayOfRowsToConvert, columnsToInclude ) ) );
+	element.setAttribute( 'download', `gabellifasttrackdemo-perfs-${ new Date().toISOString().split( 'T' )[ 0 ] }.csv` );
+	element.style.display = 'none';
+	document.body.appendChild( element );
+	element.click();
+	document.body.removeChild( element );
+};
