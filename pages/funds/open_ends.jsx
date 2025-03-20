@@ -113,12 +113,12 @@ const OpenEnds = () => {
 		triggerQuarterly()
 	}, [ triggerDaily, triggerMonthly, triggerQuarterly ] )
 	
-	const parsedReturns = parseFastTrackReturns( tableToDisplay?.statslist.returns );
+	const parsedReturns = parseFastTrackReturns( tableToDisplay?.statslist?.returns );
 
 	const formattedTable = {
-			'Ticker': tableToDisplay?.statslist.ticker,
-			'Price': tableToDisplay?.statslist.describe?.price,
-			'Change': parsePercentage( ( tableToDisplay?.statslist.describe?.price - tableToDisplay?.statslist.describe?.price_previous ) / tableToDisplay?.statslist.describe?.price_previous ),
+			'Ticker': tableToDisplay?.statslist?.ticker,
+			'Price': tableToDisplay?.statslist?.describe?.price,
+			'Change': parsePercentage( ( tableToDisplay?.statslist?.describe?.price - tableToDisplay?.statslist?.describe?.price_previous ) / tableToDisplay?.statslist?.describe?.price_previous ),
 			'YTD': parsedReturns.ytd,
 			'3MO': parsedReturns.threemonths,
 			'1yr': parsedReturns.one,
@@ -153,10 +153,10 @@ const OpenEnds = () => {
 				<span style={ { flex: 1 } }>10 YR</span>
 				<span style={ { flex: 1 } }>Life</span>
 			</div>
-			{ tableToDisplay?.statslist.map( ( {
+			{ tableToDisplay?.statslist?.map( ( {
 				ticker,
 				describe,
-				// returns,
+				returns,
 				// aux,
 				// dteend,
 				// dtestart,
@@ -172,13 +172,13 @@ const OpenEnds = () => {
 				</span>
 				<span style={ { flex: 1 } }>{ `$${ describe?.price }` }</span>
 				<span style={ { flex: 1 } }>{ parsePercentage( ( describe?.price - describe?.price_previous ) / describe?.price_previous ) }</span>
-				<span style={ { flex: 1 } }>{ parsedReturns.ytd }</span>
-				<span style={ { flex: 1 } }>{ parsedReturns.threemonths }</span>
-				<span style={ { flex: 1 } }>{ parsedReturns.one }</span>
-				<span style={ { flex: 1 } }>{ parsedReturns.three }</span>
-				<span style={ { flex: 1 } }>{ parsedReturns.five }</span>
-				<span style={ { flex: 1 } }>{ parsedReturns.ten }</span>
-				<span style={ { flex: 1 } }>{ parsedReturns.inception }</span>
+				<span style={ { flex: 1 } }>{ returns.ytd }</span>
+				<span style={ { flex: 1 } }>{ returns.threemonths }</span>
+				<span style={ { flex: 1 } }>{ returns.one }</span>
+				<span style={ { flex: 1 } }>{ returns.three }</span>
+				<span style={ { flex: 1 } }>{ returns.five }</span>
+				<span style={ { flex: 1 } }>{ returns.ten }</span>
+				<span style={ { flex: 1 } }>{ returns.inception }</span>
 			</div> ) }
 		</div>
 
